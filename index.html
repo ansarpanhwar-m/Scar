@@ -1,150 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ansar TikTok Video Downloader</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Consolas, monospace;
-    }
+<title>Ansar TikTok Video Downloader</title>
 
-    body{
-      background:#000;
-      overflow:hidden;
-      color:#00ff99;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-    }
+<style>
 
-    canvas{
-      position:fixed;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      z-index:-1;
-    }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Consolas, monospace;
+}
 
-    .container{
-      width:90%;
-      max-width:420px;
-      background:rgba(0,0,0,0.75);
-      border:1px solid #00ff99;
-      padding:25px;
-      border-radius:18px;
-      text-align:center;
-      box-shadow:0 0 25px #00ff99;
-      backdrop-filter:blur(6px);
-    }
+body{
+  overflow:hidden;
+  background:#000814;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  color:#00aeff;
+}
 
-    h1{
-      margin-bottom:20px;
-      color:#00ff99;
-      font-size:26px;
-      text-shadow:0 0 10px #00ff99;
-    }
+/* MATRIX BACKGROUND */
 
-    input{
-      width:100%;
-      padding:14px;
-      border:none;
-      outline:none;
-      border-radius:10px;
-      margin-bottom:15px;
-      background:#111;
-      color:#00ff99;
-      border:1px solid #00ff99;
-      font-size:15px;
-    }
+#matrix{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:-2;
+}
 
-    input::placeholder{
-      color:#00cc77;
-    }
+/* GLOW EFFECT */
 
-    button{
-      width:100%;
-      padding:14px;
-      border:none;
-      border-radius:10px;
-      background:#00ff99;
-      color:#000;
-      font-size:16px;
-      font-weight:bold;
-      cursor:pointer;
-      transition:0.3s;
-    }
+.glow{
+  position:fixed;
+  width:600px;
+  height:600px;
+  background:radial-gradient(circle,#008cff55 0%,transparent 70%);
+  filter:blur(60px);
+  animation:moveGlow 8s infinite alternate ease-in-out;
+  z-index:-1;
+}
 
-    button:hover{
-      background:#00cc77;
-      box-shadow:0 0 15px #00ff99;
-    }
+@keyframes moveGlow{
+  0%{
+    transform:translate(-150px,-100px);
+  }
 
-    #result{
-      margin-top:20px;
-    }
+  100%{
+    transform:translate(150px,100px);
+  }
+}
 
-    video{
-      margin-top:15px;
-      border-radius:12px;
-      border:1px solid #00ff99;
-      box-shadow:0 0 15px #00ff99;
-    }
+/* MAIN BOX */
 
-    .download-btn{
-      display:inline-block;
-      margin-top:15px;
-      padding:12px 20px;
-      background:#00ff99;
-      color:#000;
-      text-decoration:none;
-      border-radius:10px;
-      font-weight:bold;
-      cursor:pointer;
-      box-shadow:0 0 15px #00ff99;
-    }
+.container{
+  width:90%;
+  max-width:430px;
+  background:rgba(0,10,25,0.75);
+  border:1px solid #00aaff;
+  border-radius:22px;
+  padding:28px;
+  text-align:center;
+  backdrop-filter:blur(8px);
+  box-shadow:
+  0 0 20px #008cff,
+  0 0 60px #0066ff55;
+}
 
-  </style>
+/* TITLE */
+
+h1{
+  color:#00bfff;
+  font-size:28px;
+  margin-bottom:20px;
+  text-shadow:
+  0 0 10px #00aaff,
+  0 0 30px #006eff;
+}
+
+/* INPUT */
+
+input{
+  width:100%;
+  padding:15px;
+  background:#00111f;
+  border:1px solid #00aaff;
+  border-radius:12px;
+  color:#00d5ff;
+  font-size:15px;
+  outline:none;
+  margin-bottom:15px;
+  box-shadow:0 0 10px #008cff33 inset;
+}
+
+input::placeholder{
+  color:#66d9ff;
+}
+
+/* BUTTON */
+
+button{
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(45deg,#009dff,#0044ff);
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+  box-shadow:
+  0 0 15px #008cff,
+  0 0 40px #0044ff55;
+}
+
+button:hover{
+  transform:scale(1.03);
+  box-shadow:
+  0 0 25px #00bfff,
+  0 0 50px #0055ff;
+}
+
+/* RESULT */
+
+#result{
+  margin-top:20px;
+}
+
+/* VIDEO */
+
+video{
+  width:100%;
+  margin-top:15px;
+  border-radius:15px;
+  border:1px solid #00aaff;
+  box-shadow:
+  0 0 20px #008cff;
+}
+
+/* DOWNLOAD BUTTON */
+
+.download-btn{
+  margin-top:15px;
+  display:inline-block;
+  padding:13px 22px;
+  border-radius:12px;
+  background:linear-gradient(45deg,#00aaff,#0044ff);
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+  box-shadow:
+  0 0 15px #008cff,
+  0 0 40px #0044ff55;
+}
+
+.download-btn:hover{
+  transform:scale(1.05);
+}
+
+</style>
 </head>
 <body>
 
 <canvas id="matrix"></canvas>
 
+<div class="glow"></div>
+
 <div class="container">
 
-  <h1>ANSAR TIKTOK VIDEO DOWNLOADER</h1>
+<h1>ANSAR TIKTOK VIDEO DOWNLOADER</h1>
 
-  <input type="text" id="url" placeholder="Paste TikTok Video Link">
+<input
+type="text"
+id="url"
+placeholder="Paste TikTok Video Link"
+/>
 
-  <button onclick="downloadTikTok()">DOWNLOAD VIDEO</button>
+<button onclick="downloadTikTok()">
+DOWNLOAD VIDEO
+</button>
 
-  <div id="result"></div>
+<div id="result"></div>
 
 </div>
 
 <script>
 
-async function downloadTikTok() {
+/* DOWNLOAD FUNCTION */
+
+async function downloadTikTok(){
 
   const url = document.getElementById("url").value;
   const result = document.getElementById("result");
 
   if(url === ""){
-    result.innerHTML = "ENTER TIKTOK URL";
+
+    result.innerHTML = "ENTER TIKTOK VIDEO URL";
     return;
+
   }
 
   result.innerHTML = "PROCESSING...";
 
-  try {
+  try{
 
-    const api = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`;
+    const api =
+    `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`;
 
     const response = await fetch(api);
     const data = await response.json();
@@ -152,146 +222,198 @@ async function downloadTikTok() {
     if(data && data.data && data.data.play){
 
       result.innerHTML = `
-        <video width="100%" controls>
-          <source src="${data.data.play}" type="video/mp4">
-        </video>
 
-        <br>
+      <video controls>
+        <source src="${data.data.play}" type="video/mp4">
+      </video>
 
-        <div class="download-btn" onclick="autoDownload('${data.data.play}')">
-          DOWNLOAD NOW
-        </div>
+      <br>
+
+      <div
+      class="download-btn"
+      onclick="autoDownload('${data.data.play}')">
+
+      DOWNLOAD NOW
+
+      </div>
+
       `;
 
-    } else {
+    }else{
 
       result.innerHTML = "VIDEO NOT FOUND";
 
     }
 
-  } catch(err){
+  }catch(error){
 
-    result.innerHTML = "ERROR DOWNLOADING VIDEO";
+    result.innerHTML = "DOWNLOAD ERROR";
 
   }
 
 }
 
+
+/* AUTO DOWNLOAD */
 
 function autoDownload(videoUrl){
 
   fetch(videoUrl)
-    .then(response => response.blob())
-    .then(blob => {
 
-      const blobUrl = window.URL.createObjectURL(blob);
+  .then(response => response.blob())
 
-      const a = document.createElement("a");
+  .then(blob => {
 
-      a.href = blobUrl;
-      a.download = "Ansar_TikTok_Video.mp4";
+    const blobUrl =
+    window.URL.createObjectURL(blob);
 
-      document.body.appendChild(a);
+    const a =
+    document.createElement("a");
 
-      a.click();
+    a.href = blobUrl;
 
-      document.body.removeChild(a);
+    a.download =
+    "Ansar_TikTok_Video.mp4";
 
-      window.URL.revokeObjectURL(blobUrl);
+    document.body.appendChild(a);
 
-    })
-    .catch(() => {
+    a.click();
 
-      alert("DOWNLOAD FAILED");
+    document.body.removeChild(a);
 
-    });
+    window.URL.revokeObjectURL(blobUrl);
+
+  })
+
+  .catch(() => {
+
+    alert("DOWNLOAD FAILED");
+
+  });
 
 }
 
 
-<!-- OLD MATRIX SCRIPT REMOVE KARDO
-AUR ISKO PASTE KARDO -->
 
-<script>
+/* ULTRA MATRIX EFFECT */
 
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
+const canvas =
+document.getElementById("matrix");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+const ctx =
+canvas.getContext("2d");
+
+canvas.width =
+window.innerWidth;
+
+canvas.height =
+window.innerHeight;
 
 const chars =
-"アァカサタナハマヤャラワ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@$#%&*";
+"アカサタナハマヤラワ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 const fontSize = 16;
-const columns = Math.floor(canvas.width / fontSize);
+
+const columns =
+Math.floor(canvas.width / fontSize);
 
 const drops = [];
-const speeds = [];
+
+const colors = [
+"#00bfff",
+"#00aaff",
+"#66ccff",
+"#008cff",
+"#4dc3ff"
+];
 
 for(let i = 0; i < columns; i++){
-  drops[i] = Math.random() * -100;
-  speeds[i] = 2 + Math.random() * 5;
+
+  drops[i] =
+  Math.random() * canvas.height;
+
 }
 
-function drawMatrix(){
+function draw(){
 
-  ctx.fillStyle = "rgba(0,0,0,0.08)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle =
+  "rgba(0, 0, 20, 0.08)";
+
+  ctx.fillRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  ctx.font =
+  fontSize + "px monospace";
 
   for(let i = 0; i < drops.length; i++){
 
     const text =
-      chars[Math.floor(Math.random() * chars.length)];
+    chars.charAt(
+      Math.floor(
+        Math.random() * chars.length
+      )
+    );
 
-    const x = i * fontSize;
-    const y = drops[i] * fontSize;
+    const x =
+    i * fontSize;
 
-    // Glow Effect
-    ctx.shadowColor = "#00ff99";
-    ctx.shadowBlur = 15;
-
-    // Random Neon Colors
-    const colors = [
-      "#00ff99",
-      "#00ffee",
-      "#00ff00",
-      "#66ffcc"
-    ];
+    const y =
+    drops[i] * fontSize;
 
     ctx.fillStyle =
-      colors[Math.floor(Math.random() * colors.length)];
+    colors[
+      Math.floor(
+        Math.random() * colors.length
+      )
+    ];
 
-    ctx.font = fontSize + "px monospace";
+    ctx.shadowColor =
+    "#00aaff";
+
+    ctx.shadowBlur = 15;
 
     ctx.fillText(text, x, y);
 
-    // Trail Head
+    // WHITE HEAD EFFECT
     ctx.fillStyle = "#ffffff";
-    ctx.fillText(text, x, y - 20);
 
-    drops[i] += speeds[i] * 0.1;
+    ctx.fillText(text, x, y - 18);
 
-    // Reset Rain
-    if(y > canvas.height && Math.random() > 0.975){
-      drops[i] = Math.random() * -20;
+    if(
+      y > canvas.height &&
+      Math.random() > 0.975
+    ){
+
+      drops[i] = 0;
+
     }
+
+    drops[i]++;
 
   }
 
 }
 
-setInterval(drawMatrix, 30);
+setInterval(draw, 33);
 
 
-// Responsive
+/* RESPONSIVE */
+
 window.addEventListener("resize", () => {
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width =
+  window.innerWidth;
+
+  canvas.height =
+  window.innerHeight;
 
 });
 
 </script>
+
 </body>
 </html>
