@@ -23,7 +23,6 @@
       height:100vh;
     }
 
-    /* Hacking Background */
     canvas{
       position:fixed;
       top:0;
@@ -91,6 +90,13 @@
       margin-top:20px;
     }
 
+    video{
+      margin-top:15px;
+      border-radius:12px;
+      border:1px solid #00ff99;
+      box-shadow:0 0 15px #00ff99;
+    }
+
     .download-btn{
       display:inline-block;
       margin-top:15px;
@@ -100,15 +106,10 @@
       text-decoration:none;
       border-radius:10px;
       font-weight:bold;
+      cursor:pointer;
       box-shadow:0 0 15px #00ff99;
     }
 
-    video{
-      margin-top:15px;
-      border-radius:12px;
-      border:1px solid #00ff99;
-      box-shadow:0 0 15px #00ff99;
-    }
   </style>
 </head>
 <body>
@@ -157,22 +158,59 @@ async function downloadTikTok() {
 
         <br>
 
-        <a class="download-btn" href="${data.data.play}" download>
+        <div class="download-btn" onclick="autoDownload('${data.data.play}')">
           DOWNLOAD NOW
-        </a>
+        </div>
       `;
 
     } else {
+
       result.innerHTML = "VIDEO NOT FOUND";
+
     }
 
   } catch(err){
+
     result.innerHTML = "ERROR DOWNLOADING VIDEO";
+
   }
+
 }
 
 
-/* Matrix Hacking Background */
+function autoDownload(videoUrl){
+
+  fetch(videoUrl)
+    .then(response => response.blob())
+    .then(blob => {
+
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+
+      a.href = blobUrl;
+      a.download = "Ansar_TikTok_Video.mp4";
+
+      document.body.appendChild(a);
+
+      a.click();
+
+      document.body.removeChild(a);
+
+      window.URL.revokeObjectURL(blobUrl);
+
+    })
+    .catch(() => {
+
+      alert("DOWNLOAD FAILED");
+
+    });
+
+}
+
+
+
+/* MATRIX HACKING EFFECT */
 
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
@@ -209,7 +247,9 @@ function draw(){
     }
 
     drops[i]++;
+
   }
+
 }
 
 setInterval(draw, 35);
